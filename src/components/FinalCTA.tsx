@@ -1,60 +1,73 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
+import { ShoppingBag, ArrowRight, ShieldCheck, Truck } from 'lucide-react';
+import { productData } from '../data/productData';
+import img1 from '../assets/skincare.jpg';
 import './FinalCTA.css';
 
-const FinalCTA = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
+interface FinalCTAProps {
+  onQuickBuy: () => void;
+}
 
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1.1, 1]);
-
+const FinalCTA = ({ onQuickBuy }: FinalCTAProps) => {
   return (
-    <section id="contact" className="final-cta" ref={ref}>
-      <motion.div 
-        className="final-bg"
-        style={{ scale: bgScale }}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] as const }}
-      >
-        <img src="https://images.unsplash.com/photo-1618220179428-22790b46a0eb?q=80&w=2000&auto=format&fit=crop" alt="Abstract dark texture" />
-      </motion.div>
-      
-      <div className="final-content">
-        <motion.h2 
-          className="final-title"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] as const, delay: 0.4 }}
-        >
-          Elevate Your Everyday
-        </motion.h2>
-        
-        <motion.p 
-          className="final-subtitle"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] as const, delay: 0.6 }}
-        >
-          Join a community of connoisseurs. Discover pieces that transcend time.
-        </motion.p>
+    <section className="final-cta-section">
+      <div className="section-container">
         
         <motion.div 
-          className="final-buttons"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          className="final-cta-card"
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] as const, delay: 0.8 }}
+          transition={{ duration: 0.7 }}
         >
-          <button className="btn-primary">Explore Collection</button>
-          <button className="btn-secondary">Enquire Privately</button>
+          <div className="final-cta-grid">
+            
+            <div className="final-cta-content">
+              <span className="section-eyebrow">BEGIN YOUR RITUAL TODAY</span>
+              <h2 className="final-cta-title">Elevate Your Everyday Self-Care</h2>
+              <p className="final-cta-desc">
+                Experience the transformative power of Earthora Aura Radiance Elixir. 100% natural, ethically sourced, and crafted for your daily well-being.
+              </p>
+
+              <div className="final-cta-pricing">
+                <span className="price-label">Starting at only</span>
+                <span className="price-val">₹{productData.bundles[0].price.toLocaleString()}</span>
+                <span className="price-orig">₹{productData.bundles[0].originalPrice.toLocaleString()}</span>
+                <span className="price-badge">Free Shipping</span>
+              </div>
+
+              <div className="final-cta-actions">
+                <button className="btn-primary final-buy-btn" onClick={onQuickBuy}>
+                  <span>Order Now</span>
+                  <ArrowRight size={18} />
+                </button>
+                <button 
+                  className="btn-secondary" 
+                  onClick={() => {
+                    const heroEl = document.getElementById('hero');
+                    heroEl?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <ShoppingBag size={18} />
+                  <span>Choose Package</span>
+                </button>
+              </div>
+
+              <div className="final-cta-guarantees">
+                <span><ShieldCheck size={16} className="icon" /> 100% Satisfaction Guarantee</span>
+                <span><Truck size={16} className="icon" /> Fast Express Shipping</span>
+              </div>
+            </div>
+
+            <div className="final-cta-media">
+              <div className="final-img-frame">
+                <img src={img1} alt="Earthora Aura Elixir" className="final-img" />
+              </div>
+            </div>
+
+          </div>
         </motion.div>
+
       </div>
     </section>
   );

@@ -1,74 +1,59 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
+import { Sparkle } from 'lucide-react';
+import { productData } from '../data/productData';
+import img2 from '../assets/skincare1.jpg';
+import heroImg from '../assets/hero.png';
 import './BrandStory.css';
 
 const BrandStory = () => {
-  const containerRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
-
   return (
-    <section id="about" className="story" ref={containerRef}>
-      <motion.div className="story-bg" style={{ y }}>
-        <img src="https://images.unsplash.com/photo-1600180758890-7b58797f7fa2?q=80&w=2000&auto=format&fit=crop" alt="Abstract Brand Texture" />
-      </motion.div>
-      
-      <div className="story-content">
+    <section id="story" className="product-story-section">
+      <div className="section-container story-grid">
+        
+        {/* Left Column - Product Showcase Image */}
         <motion.div 
-          className="story-text"
-          initial={{ opacity: 0, x: -50 }}
+          className="story-media-col"
+          initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] as const, delay: 0.2 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          <motion.h2 
-            className="story-title"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const, delay: 0.4 }}
-          >
-            The Essence of <br /> Raw Elegance
-          </motion.h2>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const, delay: 0.6 }}
-          >
-            Founded on the principle that true luxury is whispered, not shouted, Earthora brings you a collection of objects that speak to the soul. Every piece is a testament to the uncompromising standards we hold.
-          </motion.p>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const, delay: 0.8 }}
-          >
-            We traverse the globe to source materials of unparalleled quality, working with master artisans who have honed their craft over generations.
-          </motion.p>
+          <div className="story-image-card">
+            <img src={img2} alt="Earthora Botanical Craftsmanship" className="story-main-img" />
+            <div className="story-floating-badge">
+              <img src={heroImg} alt="Earthora Bottle" className="badge-thumb" />
+              <div>
+                <div className="badge-title">Pure Botanical Base</div>
+                <div className="badge-sub">Cold-Pressed Cold Formulation</div>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
+        {/* Right Column - Story Copy & Bullets */}
         <motion.div 
-          className="story-image"
-          style={{ y: useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]) }}
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] as const, delay: 0.4 }}
+          className="story-content-col"
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.1 }}
         >
-          <p>
-            At Earthora, we believe that true luxury is not defined by excess, but by the relentless pursuit of perfection. Every piece is a testament to uncompromising craftsmanship, rarity, and timeless design.
-          </p>
-          <p>
-            Our creations are not simply made; they are carefully cultivated. We invite you to experience a new standard of elegance—where attention to detail transforms the ordinary into the extraordinary.
-          </p>
+          <span className="section-eyebrow">{productData.story.eyebrow}</span>
+          <h2 className="section-title story-heading">{productData.story.title}</h2>
+
+          <p className="story-paragraph">{productData.story.paragraph1}</p>
+          <p className="story-paragraph">{productData.story.paragraph2}</p>
+
+          <div className="story-bullets-list">
+            {productData.story.bullets.map((bullet, idx) => (
+              <div key={idx} className="story-bullet-item">
+                <Sparkle size={16} className="bullet-icon" />
+                <span>{bullet}</span>
+              </div>
+            ))}
+          </div>
         </motion.div>
+
       </div>
     </section>
   );

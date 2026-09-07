@@ -1,63 +1,121 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { ShoppingBag, Menu, X, ChevronRight } from 'lucide-react';
 import './Navigation.css';
 
-const Navigation = () => {
+interface NavigationProps {
+  cartCount: number;
+  onOpenCart: () => void;
+  onQuickBuy: () => void;
+}
+
+const Navigation = ({ cartCount, onOpenCart, onQuickBuy }: NavigationProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 40);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navLinks = [
+    { name: 'Home', href: '#hero' },
+    { name: 'Collection', href: '#formula' },
+    { name: 'Product', href: '#hero' },
+    { name: 'About Us', href: '#story' },
+    { name: 'Reviews', href: '#reviews' },
+  ];
+
   return (
     <>
-      <motion.nav 
-        className={`nav ${scrolled ? 'scrolled' : ''}`}
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const, delay: 0.2 }}
-      >
-        <div className="nav-brand">Earthora</div>
-        
-        <div className="nav-links">
-          <a href="#collection">Collection</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </div>
+      <header className={`nav-header ${scrolled ? 'scrolled' : ''}`}>
+        <div className="nav-container">
+          <a href="#hero" className="nav-logo">
+            <span className="logo-text">EARTHORA</span>
+            <span className="logo-badge">LUXURY</span>
+          </a>
 
-        <div className="nav-right">
-          <button>Explore</button>
-        </div>
+          <nav className="nav-desktop-menu">
+            {navLinks.map((link) => (
+              <a key={link.name} href={link.href} className="nav-link">
+                {link.name}
+              </a>
+            ))}
+          </nav>
 
-        <div className="menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          <div className="nav-actions">
+            <button className="cart-trigger" onClick={onOpenCart} aria-label="Cart">
+              <ShoppingBag size={20} />
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </button>
+            <button className="nav-buy-btn" onClick={onQuickBuy}>
+              Buy Now
+            </button>
+            <button 
+              className="mobile-toggle-btn" 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
-      </motion.nav>
+      </header>
 
+      {/* Mobile Navigation Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            className="mobile-menu"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
+            className="mobile-drawer-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMobileMenuOpen(false)}
           >
-            <a href="#collection" onClick={() => setMobileMenuOpen(false)}>Collection</a>
-            <a href="#about" onClick={() => setMobileMenuOpen(false)}>About</a>
-            <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
-            <button className="btn-primary" style={{ marginTop: '2rem' }} onClick={() => setMobileMenuOpen(false)}>Explore Collection</button>
+            <motion.div 
+              className="mobile-drawer"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="drawer-header">
+                <div className="drawer-logo">EARTHORA</div>
+                <button onClick={() => setMobileMenuOpen(false)} className="close-btn">
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="drawer-links">
+                {navLinks.map((link) => (
+                  <a 
+                    key={link.name} 
+                    href={link.href} 
+                    className="drawer-link"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span>{link.name}</span>
+                    <ChevronRight size={18} className="chevron" />
+                  </a>
+                ))}
+              </div>
+
+              <div className="drawer-footer">
+                <button 
+                  className="btn-primary drawer-buy-btn"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onQuickBuy();
+                  }}
+                >
+                  Order Now • Free Shipping
+                </button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
