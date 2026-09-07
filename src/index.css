@@ -43,6 +43,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
   color-scheme: dark;
 }
 
@@ -54,6 +55,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+section {
+  scroll-snap-align: center;
+  scroll-snap-stop: normal;
 }
 
 img {
