@@ -36,7 +36,8 @@
   padding: 2.25rem 1.75rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   transition: var(--transition-smooth);
 }
 
@@ -67,10 +68,12 @@
   font-size: 1.3rem;
   margin-bottom: 0.75rem;
   color: #ffffff;
+  text-align: center;
 }
 
 .benefit-card-desc {
   font-size: 0.92rem;
   color: var(--text-secondary);
   line-height: 1.6;
+  text-align: center;
 }
