@@ -60,12 +60,12 @@
   gap: 0.75rem;
   font-size: 0.98rem;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--text-primary);
   text-align: center;
 }
 
 .lifestyle-bullet .check-icon {
-  color: var(--accent-red);
+  color: var(--accent-olive);
   flex-shrink: 0;
 }
 

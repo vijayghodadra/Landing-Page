@@ -4,61 +4,66 @@ import { MoveRight, Plus } from 'lucide-react';
 import ProductModal from './ProductModal.tsx';
 import './FeaturedCollection.css';
 
-import img1 from '../assets/skincare.jpg';
-import img2 from '../assets/skincare1.jpg';
-import img3 from '../assets/images.jpg';
-import img4 from '../assets/ghf.jpg';
-import img5 from '../assets/fef.jpg';
+import img1 from '../assets/images (1).jpg';
+import img2 from '../assets/images (2).jpg';
+import img3 from '../assets/images (4).jpg';
+import img4 from '../assets/images (3).jpg';
+import img5 from '../assets/images6.jpg';
 
 const products = [
   {
-    id: 1,
-    name: 'AURA CLEANSING DUO',
-    category: 'BODY CARE',
-    desc: 'A refined daily ritual for\nluminous, deeply refreshed skin.',
-    price: '₹2,490',
+    id: 'product-1',
+    name: 'UBTAN FACE WASH',
+    category: 'FACIAL CARE',
+    desc: 'Formulated with saffron & turmeric\nfor natural radiance & glow.',
+    price: '₹249',
     image: img1,
     className: 'item-1'
   },
   {
-    id: 2,
-    name: 'RADIANCE SERUM',
-    category: 'FACE CARE',
-    desc: 'Brightening elixir that restores\nclarity and youthful glow.',
-    price: '₹3,290',
+    id: 'product-2',
+    name: 'ANTI-POLLUTION CREAM',
+    category: 'DAY CREAM',
+    desc: 'Protects skin from pollution\nwith natural botanical shields.',
+    price: '₹349',
     image: img2,
     className: 'item-2'
   },
   {
-    id: 3,
-    name: 'NOURISHING CREAM',
+    id: 'product-3',
+    name: 'HYDRO BOOST GEL',
     category: 'MOISTURIZER',
-    desc: 'Deep hydration with natural botanicals\nfor soft, supple and protected skin.',
-    price: '₹2,990',
+    desc: 'Deep hydration water gel cream\nfor smooth, glowing skin.',
+    price: '₹950',
     image: img3,
     className: 'item-3'
   },
   {
-    id: 4,
-    name: 'REVITALIZING OIL',
-    category: 'HAIR CARE',
-    desc: 'Nourishes, strengthens and\nrestores natural shine.',
-    price: '₹2,390',
+    id: 'product-4',
+    name: 'GENTLE CLEANSER',
+    category: 'DAILY CLEANSER',
+    desc: 'Soothing formula for oily skin,\nmaintains natural moisture balance.',
+    price: '₹599',
     image: img4,
     className: 'item-4'
   },
   {
-    id: 5,
-    name: 'SANTAL NOIR',
-    category: 'HOME FRAGRANCE',
-    desc: 'A warm, grounding scent\nfor mindful spaces.',
-    price: '₹3,190',
+    id: 'product-5',
+    name: 'VITAMIN C GLOW WASH',
+    category: 'FACE WASH',
+    desc: 'Enriched with Vitamin C & Lemon\nfor instant skin brightening.',
+    price: '₹399',
     image: img5,
     className: 'item-5'
   }
 ];
 
-const FeaturedCollection = () => {
+interface FeaturedCollectionProps {
+  onAddToCart?: (bundle: any, quantity: number) => void;
+  onBuyNow?: (bundle: any, quantity: number) => void;
+}
+
+const FeaturedCollection = ({ onAddToCart, onBuyNow }: FeaturedCollectionProps) => {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   return (
@@ -84,7 +89,7 @@ const FeaturedCollection = () => {
             >
               <div className="card-top">
                 <div className="card-number">
-                  <span>0{product.id}</span>
+                  <span>0{index + 1}</span>
                   <span className="divider">/</span>
                   <span>05</span>
                 </div>
@@ -127,6 +132,8 @@ const FeaturedCollection = () => {
         <ProductModal 
           product={selectedProduct} 
           onClose={() => setSelectedProduct(null)} 
+          onAddToCart={onAddToCart}
+          onBuyNow={onBuyNow}
         />
       )}
     </>

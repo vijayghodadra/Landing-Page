@@ -15,18 +15,19 @@
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  background: #edf1ea;
+  border: 1px solid rgba(59, 78, 50, 0.15);
   padding: 1.25rem 2rem;
   border-radius: var(--radius-xl);
   margin-top: 1.5rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .summary-score {
   font-family: var(--font-display);
   font-size: 2.75rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   line-height: 1;
 }
 
@@ -60,8 +61,8 @@
 }
 
 .review-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  background: #f7f9f5;
+  border: 1px solid rgba(59, 78, 50, 0.12);
   border-radius: var(--radius-lg);
   padding: 2rem 1.75rem;
   display: flex;
@@ -73,8 +74,8 @@
 }
 
 .review-card:hover {
-  background: var(--bg-card);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: #ffffff;
+  border-color: var(--accent-olive);
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
 }
@@ -99,9 +100,10 @@
 
 .review-title {
   font-size: 1.15rem;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 0.75rem;
   text-align: center;
+  font-weight: 700;
 }
 
 .review-comment {
@@ -126,7 +128,7 @@
 .author-name {
   font-weight: 700;
   font-size: 0.95rem;
-  color: #ffffff;
+  color: var(--text-primary);
   text-align: center;
 }
 
@@ -136,5 +138,5 @@
   justify-content: center;
   gap: 0.35rem;
   font-size: 0.75rem;
-  color: var(--accent-green);
+  color: var(--accent-olive);
 }

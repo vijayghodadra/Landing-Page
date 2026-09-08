@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { Sparkle } from 'lucide-react';
 import { productData } from '../data/productData';
-import img2 from '../assets/skincare1.jpg';
-import heroImg from '../assets/hero.png';
+import img2 from '../assets/images (2).jpg';
+import heroImg from '../assets/images6.jpg';
 import './BrandStory.css';
 
 const BrandStory = () => {

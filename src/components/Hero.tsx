@@ -1,22 +1,125 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Star, ShieldCheck, Truck, Plus, Minus, Check } from 'lucide-react';
-import { productData } from '../data/productData';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Star, ShieldCheck, Truck, Plus, Minus, Check, Tag } from 'lucide-react';
 import type { ProductBundle } from '../data/productData';
 import './Hero.css';
+
+import img1 from '../assets/images (1).jpg';
+import img2 from '../assets/images (2).jpg';
+import img3 from '../assets/images (4).jpg';
+import img4 from '../assets/images (3).jpg';
+import img5 from '../assets/images6.jpg';
 
 interface HeroProps {
   onAddToCart: (bundle: ProductBundle, quantity: number) => void;
   onBuyNow: (bundle: ProductBundle, quantity: number) => void;
 }
 
+const heroProducts = [
+  {
+    id: 'product-1',
+    name: 'Mamaearth Ubtan Natural Face Wash',
+    category: 'FACIAL CARE & RADIANCE',
+    tagline: 'Formulated with Saffron & Turmeric for natural skin radiance and gentle daily cleansing.',
+    price: 249,
+    originalPrice: 349,
+    discount: '28% OFF',
+    size: '100ml • Free Shipping',
+    rating: 4.9,
+    reviewCount: 1250,
+    image: img1
+  },
+  {
+    id: 'product-2',
+    name: 'Mamaearth Anti-Pollution Face Cream',
+    category: 'DAY CARE & PROTECTION',
+    tagline: 'Protects skin against environmental pollution while maintaining smooth botanical nourishment.',
+    price: 349,
+    originalPrice: 499,
+    discount: '30% OFF',
+    size: '80g • Free Shipping',
+    rating: 4.8,
+    reviewCount: 890,
+    image: img2
+  },
+  {
+    id: 'product-3',
+    name: 'Neutrogena Hydro Boost Water Gel',
+    category: 'MOISTURIZER & HYDRATION',
+    tagline: 'Intense hydration water gel cream that keeps skin supple, plump and glowing all day.',
+    price: 950,
+    originalPrice: 1250,
+    discount: '24% OFF',
+    size: '50g • Free Shipping',
+    rating: 4.9,
+    reviewCount: 1040,
+    image: img3
+  },
+  {
+    id: 'product-4',
+    name: 'Cetaphil Gentle Oily Skin Cleanser',
+    category: 'DERMATOLOGICAL CLEANSER',
+    tagline: 'Gentle daily cleanser designed for oily to combination skin, removing excess oil without drying.',
+    price: 599,
+    originalPrice: 750,
+    discount: '20% OFF',
+    size: '125ml • Free Shipping',
+    rating: 4.7,
+    reviewCount: 670,
+    image: img4
+  },
+  {
+    id: 'product-5',
+    name: 'Mamaearth Vitamin C Daily Glow Wash',
+    category: 'BRIGHTENING FACE WASH',
+    tagline: 'Enriched with Vitamin C and Lemon for an instant refreshing glow and clear skin texture.',
+    price: 399,
+    originalPrice: 549,
+    discount: '27% OFF',
+    size: '100ml • Free Shipping',
+    rating: 5.0,
+    reviewCount: 520,
+    image: img5
+  }
+];
+
 const Hero = ({ onAddToCart, onBuyNow }: HeroProps) => {
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [selectedBundle, setSelectedBundle] = useState<ProductBundle>(productData.bundles[1] || productData.bundles[0]);
+  const [activeProductIndex, setActiveProductIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const activeProduct = heroProducts[activeProductIndex] || heroProducts[0];
 
   const incrementQty = () => setQuantity((prev) => prev + 1);
   const decrementQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const currentBundle: ProductBundle = {
+    id: activeProduct.id,
+    name: activeProduct.name,
+    size: activeProduct.size,
+    price: activeProduct.price,
+    originalPrice: activeProduct.originalPrice,
+    discount: activeProduct.discount,
+    image: activeProduct.image
+  };
+
+  const handleAddToCartClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    onAddToCart(currentBundle, quantity);
+    setQuantity(1);
+    setTimeout(() => setIsSubmitting(false), 500);
+  };
+
+  const handleBuyNowClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    onBuyNow(currentBundle, quantity);
+    setQuantity(1);
+    setTimeout(() => setIsSubmitting(false), 500);
+  };
 
   return (
     <section id="hero" className="hero-section">
@@ -31,91 +134,83 @@ const Hero = ({ onAddToCart, onBuyNow }: HeroProps) => {
         >
           <div className="main-image-container">
             <span className="badge-featured">FLAGSHIP FORMULA</span>
-            <motion.img 
-              key={activeImageIndex}
-              src={productData.galleryImages[activeImageIndex]} 
-              alt={productData.name}
-              className="main-product-img"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-            />
+            <AnimatePresence mode="wait">
+              <motion.img 
+                key={activeProductIndex}
+                src={activeProduct.image} 
+                alt={activeProduct.name}
+                className="main-product-img"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 0.35 }}
+              />
+            </AnimatePresence>
           </div>
 
           {/* Gallery Thumbnails */}
           <div className="gallery-thumbnails">
-            {productData.galleryImages.map((img, idx) => (
+            {heroProducts.map((prod, idx) => (
               <button
-                key={idx}
-                className={`thumbnail-btn ${activeImageIndex === idx ? 'active' : ''}`}
-                onClick={() => setActiveImageIndex(idx)}
-                aria-label={`View image ${idx + 1}`}
+                key={prod.id}
+                className={`thumbnail-btn ${activeProductIndex === idx ? 'active' : ''}`}
+                onClick={() => setActiveProductIndex(idx)}
+                aria-label={`Select product ${prod.name}`}
               >
-                <img src={img} alt={`Thumbnail ${idx + 1}`} />
+                <img src={prod.image} alt={prod.name} />
               </button>
             ))}
           </div>
         </motion.div>
 
-        {/* Right Column - Product Purchase Panel */}
+        {/* Right Column - Dynamic Product Details Panel */}
         <motion.div 
           className="hero-content-col"
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
         >
-          <span className="section-eyebrow">{productData.category}</span>
-          <h1 className="hero-product-title">{productData.name}</h1>
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={activeProduct.id}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="hero-details-container"
+            >
+              <span className="section-eyebrow">{activeProduct.category}</span>
+              <h1 className="hero-product-title">{activeProduct.name}</h1>
 
-          {/* Rating Summary */}
-          <div className="hero-rating-bar">
-            <div className="stars-wrapper">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={16} fill="#e5b95f" color="#e5b95f" />
-              ))}
-            </div>
-            <span className="rating-num">{productData.rating}</span>
-            <span className="rating-dot">•</span>
-            <a href="#reviews" className="reviews-link">
-              {productData.reviewCount.toLocaleString()} verified reviews
-            </a>
-          </div>
+              {/* Rating Summary */}
+              <div className="hero-rating-bar">
+                <div className="stars-wrapper">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} fill="#d97706" color="#d97706" />
+                  ))}
+                </div>
+                <span className="rating-num">{activeProduct.rating}</span>
+                <span className="rating-dot">•</span>
+                <a href="#reviews" className="reviews-link">
+                  {activeProduct.reviewCount.toLocaleString()} verified reviews
+                </a>
+              </div>
 
-          <p className="hero-description">{productData.tagline}</p>
+              <p className="hero-description">{activeProduct.tagline}</p>
 
-          {/* Bundle Options Selector */}
-          <div className="bundle-selector-group">
-            <label className="group-label">Select Supply Package:</label>
-            <div className="bundles-grid">
-              {productData.bundles.map((bundle) => {
-                const isSelected = selectedBundle.id === bundle.id;
-                return (
-                  <div
-                    key={bundle.id}
-                    className={`bundle-card ${isSelected ? 'selected' : ''} ${bundle.bestValue ? 'best-value-card' : ''}`}
-                    onClick={() => setSelectedBundle(bundle)}
-                  >
-                    {bundle.badge && <span className="bundle-badge">{bundle.badge}</span>}
-                    <div className="bundle-radio">
-                      <div className={`radio-circle ${isSelected ? 'checked' : ''}`}>
-                        {isSelected && <div className="radio-dot" />}
-                      </div>
-                      <div className="bundle-info">
-                        <div className="bundle-name">{bundle.name}</div>
-                        <div className="bundle-size">{bundle.size}</div>
-                      </div>
-                    </div>
-
-                    <div className="bundle-pricing">
-                      <span className="current-price">₹{bundle.price.toLocaleString()}</span>
-                      <span className="original-price">₹{bundle.originalPrice.toLocaleString()}</span>
-                      <span className="discount-tag">{bundle.discount}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+              {/* SIMPLE PRICE & DISCOUNT BOX (No 1 Month / 2 Month supply packages) */}
+              <div className="hero-simple-price-card">
+                <div className="price-left-stack">
+                  <span className="hero-current-price">₹{activeProduct.price.toLocaleString()}</span>
+                  <span className="hero-original-price">₹{activeProduct.originalPrice.toLocaleString()}</span>
+                  <span className="hero-discount-badge">
+                    <Tag size={12} /> {activeProduct.discount}
+                  </span>
+                </div>
+                <div className="price-size-info">{activeProduct.size}</div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
 
           {/* Quantity & CTAs */}
           <div className="cta-purchase-container">
@@ -135,13 +230,13 @@ const Hero = ({ onAddToCart, onBuyNow }: HeroProps) => {
             <div className="cta-buttons-row">
               <button 
                 className="btn-primary add-cart-btn"
-                onClick={() => onAddToCart(selectedBundle, quantity)}
+                onClick={handleAddToCartClick}
               >
-                Add to Cart — ₹{(selectedBundle.price * quantity).toLocaleString()}
+                Add to Cart — ₹{(activeProduct.price * quantity).toLocaleString()}
               </button>
               <button 
                 className="btn-green buy-now-btn"
-                onClick={() => onBuyNow(selectedBundle, quantity)}
+                onClick={handleBuyNowClick}
               >
                 Buy Now
               </button>

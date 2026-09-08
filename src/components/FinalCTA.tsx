@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ShoppingBag, ArrowRight, ShieldCheck, Truck } from 'lucide-react';
 import { productData } from '../data/productData';
-import img1 from '../assets/skincare.jpg';
+import img1 from '../assets/images (1).jpg';
 import './FinalCTA.css';
 
 interface FinalCTAProps {

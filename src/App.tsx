@@ -5,15 +5,12 @@ import Lenis from 'lenis';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import TrustBar from './components/TrustBar';
+import FeaturedCollection from './components/FeaturedCollection';
 import Benefits from './components/Benefits';
 import BrandStory from './components/BrandStory';
 import DetailsGrid from './components/DetailsGrid';
-import HowToUse from './components/HowToUse';
-import LifestyleStory from './components/LifestyleStory';
 import Comparison from './components/Comparison';
 import Reviews from './components/Reviews';
-import FAQ from './components/FAQ';
-import FinalCTA from './components/FinalCTA';
 import CartDrawer from './components/CartDrawer';
 import type { CartItem } from './components/CartDrawer';
 import Footer from './components/Footer';
@@ -49,14 +46,17 @@ function App() {
   }, []);
 
   const handleAddToCart = (bundle: ProductBundle, quantity: number) => {
+    const qtyToAdd = quantity > 0 ? quantity : 1;
     setCartItems((prevItems) => {
       const existingIdx = prevItems.findIndex((item) => item.bundle.id === bundle.id);
       if (existingIdx > -1) {
-        const updated = [...prevItems];
-        updated[existingIdx].quantity += quantity;
-        return updated;
+        return prevItems.map((item, idx) => 
+          idx === existingIdx 
+            ? { ...item, quantity: item.quantity + qtyToAdd }
+            : item
+        );
       } else {
-        return [...prevItems, { bundle, quantity }];
+        return [...prevItems, { bundle, quantity: qtyToAdd }];
       }
     });
     setIsCartOpen(true);
@@ -106,14 +106,14 @@ function App() {
         />
         <TrustBar />
         <Benefits />
+        <FeaturedCollection 
+          onAddToCart={handleAddToCart}
+          onBuyNow={handleBuyNow}
+        />
         <BrandStory />
         <DetailsGrid />
-        <HowToUse />
-        <LifestyleStory />
         <Comparison />
         <Reviews />
-        <FAQ />
-        <FinalCTA onQuickBuy={handleQuickBuy} />
       </main>
 
       <Footer />

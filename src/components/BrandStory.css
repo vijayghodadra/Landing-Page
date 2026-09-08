@@ -1,8 +1,8 @@
 .product-story-section {
   padding: 6rem 0;
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
+  background: #eef2ea;
+  border-top: 1px solid rgba(59, 78, 50, 0.12);
+  border-bottom: 1px solid rgba(59, 78, 50, 0.12);
 }
 
 .story-grid {
@@ -28,8 +28,8 @@
   position: relative;
   border-radius: var(--radius-xl);
   overflow: hidden;
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-card);
+  border: 1px solid rgba(59, 78, 50, 0.18);
+  background: #f7f9f5;
   box-shadow: var(--shadow-lg);
 }
 
@@ -45,14 +45,15 @@
   bottom: 1.5rem;
   left: 1.5rem;
   right: 1.5rem;
-  background: rgba(14, 14, 14, 0.85);
+  background: #3b4e32;
   backdrop-filter: blur(12px);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 0.85rem 1.25rem;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   gap: 1rem;
+  box-shadow: 0 12px 30px rgba(59, 78, 50, 0.3);
 }
 
 .badge-thumb {
@@ -60,7 +61,8 @@
   height: 44px;
   object-fit: cover;
   border-radius: var(--radius-sm);
-  background: var(--bg-dark);
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .badge-title {
@@ -72,7 +74,7 @@
 
 .badge-sub {
   font-size: 0.75rem;
-  color: var(--text-secondary);
+  color: #d1fae5;
 }
 
 /* Right Content Column */
@@ -125,6 +127,6 @@
 }
 
 .bullet-icon {
-  color: var(--accent-red);
+  color: var(--accent-olive);
   flex-shrink: 0;
 }

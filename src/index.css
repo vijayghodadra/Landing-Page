@@ -1,22 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-dark: #080808;
-  --bg-surface: #111111;
-  --bg-card: #181818;
-  --bg-card-hover: #222222;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-focus: rgba(229, 57, 53, 0.5);
+  --bg-dark: #fbfcf9;
+  --bg-surface: #edf1ea;
+  --bg-card: #f7f9f5;
+  --bg-card-hover: #eef2ea;
+  --border-subtle: rgba(59, 78, 50, 0.12);
+  --border-focus: rgba(59, 78, 50, 0.4);
 
-  --text-primary: #ffffff;
-  --text-secondary: #b3b3b3;
-  --text-muted: #737373;
+  --text-primary: #1a2416;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
 
-  --accent-red: #e53935;
-  --accent-red-hover: #c62828;
-  --accent-red-light: rgba(229, 57, 53, 0.12);
-  --accent-gold: #e5b95f;
-  --accent-green: #2e7d32;
+  --accent-red: #3b4e32;
+  --accent-red-hover: #283622;
+  --accent-red-light: rgba(59, 78, 50, 0.1);
+  --accent-olive: #3b4e32;
+  --accent-olive-hover: #283622;
+  --accent-olive-light: rgba(59, 78, 50, 0.1);
+  --accent-gold: #d97706;
+  --accent-green: #2d5a27;
 
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
@@ -27,10 +30,10 @@
   --radius-lg: 20px;
   --radius-xl: 28px;
 
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.7);
-  --shadow-red: 0 8px 25px rgba(229, 57, 53, 0.25);
+  --shadow-sm: 0 4px 14px rgba(59, 78, 50, 0.06);
+  --shadow-md: 0 8px 24px rgba(59, 78, 50, 0.1);
+  --shadow-lg: 0 16px 40px rgba(59, 78, 50, 0.14);
+  --shadow-red: 0 8px 25px rgba(59, 78, 50, 0.25);
 
   --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -43,7 +46,7 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
@@ -87,14 +90,14 @@ button {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: var(--bg-surface);
 }
 ::-webkit-scrollbar-thumb {
-  background: #333333;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-red);
+  background: var(--accent-olive);
 }
 
 /* Section Containers */
@@ -117,7 +120,7 @@ button {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: var(--accent-red);
+  color: var(--accent-olive);
   margin-bottom: 0.75rem;
   display: block;
 }
@@ -147,7 +150,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: var(--accent-red);
+  background: var(--accent-olive);
   color: #ffffff;
   font-weight: 600;
   font-size: 0.95rem;
@@ -159,9 +162,9 @@ button {
 }
 
 .btn-primary:hover {
-  background: var(--accent-red-hover);
+  background: var(--accent-olive-hover);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(229, 57, 53, 0.35);
+  box-shadow: 0 12px 30px rgba(59, 78, 50, 0.35);
 }
 
 .btn-secondary {
@@ -169,19 +172,19 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: #f1f5f9;
   color: var(--text-primary);
   font-weight: 600;
   font-size: 0.95rem;
   padding: 1rem 2rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   transition: var(--transition-smooth);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: #e2e8f0;
+  border-color: rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
@@ -190,20 +193,21 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: #1b5e20;
+  background: var(--accent-olive);
   color: #ffffff;
   font-weight: 600;
   font-size: 0.95rem;
   padding: 1rem 2rem;
   border-radius: var(--radius-md);
   transition: var(--transition-smooth);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-red);
 }
 
 .btn-green:hover {
-  background: #2e7d32;
+  background: var(--accent-olive-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(46, 125, 50, 0.3);
+  box-shadow: 0 12px 30px rgba(59, 78, 50, 0.35);
 }
 
 /* Lenis smooth scroll adjustments */

@@ -1,8 +1,8 @@
 .how-to-use-section {
   padding: 6rem 0;
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
+  background: #edf1ea;
+  border-top: 1px solid rgba(59, 78, 50, 0.12);
+  border-bottom: 1px solid rgba(59, 78, 50, 0.12);
 }
 
 .how-header {
@@ -26,8 +26,8 @@
 }
 
 .step-card {
-  background: var(--bg-dark);
-  border: 1px solid var(--border-subtle);
+  background: #f7f9f5;
+  border: 1px solid rgba(59, 78, 50, 0.15);
   border-radius: var(--radius-lg);
   padding: 2.5rem 2rem;
   display: flex;
@@ -35,27 +35,36 @@
   align-items: center;
   text-align: center;
   transition: var(--transition-smooth);
+  box-shadow: var(--shadow-sm);
 }
 
 .step-card:hover {
-  border-color: rgba(229, 57, 53, 0.4);
+  background: #ffffff;
+  border-color: var(--accent-olive);
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
 }
 
 .step-number {
   font-family: var(--font-display);
-  font-size: 2.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: var(--accent-red);
+  color: #ffffff;
+  background: var(--accent-olive);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
   margin-bottom: 1.25rem;
-  text-align: center;
+  box-shadow: 0 8px 20px rgba(59, 78, 50, 0.25);
 }
 
 .step-title {
   font-size: 1.35rem;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 0.75rem;
   text-align: center;
 }

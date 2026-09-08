@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import { productData } from '../data/productData';
-import heroImg from '../assets/hero.png';
+import heroImg from '../assets/images6.jpg';
 import './LifestyleStory.css';
 
 const LifestyleStory = () => {

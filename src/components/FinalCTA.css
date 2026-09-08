@@ -1,6 +1,6 @@
 .final-cta-section {
   padding: 4rem 0;
-  background: var(--bg-dark);
+  background: #edf1ea;
 }
 
 @media (min-width: 768px) {
@@ -10,13 +10,12 @@
 }
 
 .final-cta-card {
-  background: radial-gradient(circle at 50% 20%, rgba(229, 57, 53, 0.15) 0%, transparent 60%),
-              var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(135deg, #e3eae0 0%, #edf2ea 100%);
+  border: 1px solid rgba(59, 78, 50, 0.2);
   border-radius: var(--radius-lg);
   padding: 2rem 1.5rem;
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 16px 40px rgba(59, 78, 50, 0.15);
 }
 
 @media (min-width: 768px) {
@@ -52,6 +51,7 @@
   line-height: 1.2;
   margin-bottom: 0.85rem;
   text-align: center;
+  color: var(--text-primary);
 }
 
 @media (min-width: 768px) {
@@ -96,7 +96,7 @@
   font-family: var(--font-ui);
   font-size: 1.6rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 @media (min-width: 768px) {
@@ -115,10 +115,11 @@
   font-family: var(--font-ui);
   font-size: 0.65rem;
   font-weight: 700;
-  color: var(--accent-red);
-  background: var(--accent-red-light);
-  padding: 0.15rem 0.5rem;
+  color: #ffffff;
+  background: var(--accent-olive);
+  padding: 0.2rem 0.6rem;
   border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(59, 78, 50, 0.2);
 }
 
 .final-cta-actions {
@@ -170,7 +171,7 @@
   font-size: 0.8rem;
   color: var(--text-secondary);
   padding-top: 1.25rem;
-  border-top: 1px dashed var(--border-subtle);
+  border-top: 1px dashed rgba(59, 78, 50, 0.2);
   width: 100%;
 }
 
@@ -190,7 +191,7 @@
 }
 
 .final-cta-guarantees .icon {
-  color: var(--accent-red);
+  color: var(--accent-olive);
 }
 
 .final-cta-media {
@@ -202,14 +203,15 @@
   width: 100%;
   max-width: 380px;
   aspect-ratio: 1 / 1;
-  background: var(--bg-dark);
+  background: #ffffff;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(59, 78, 50, 0.15);
   overflow: hidden;
   padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: var(--shadow-md);
 }
 
 @media (min-width: 768px) {
@@ -223,5 +225,5 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
+  filter: drop-shadow(0 10px 20px rgba(59, 78, 50, 0.15));
 }

@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trash2, ShieldCheck, ArrowRight, ShoppingBag } from 'lucide-react';
 import type { ProductBundle } from '../data/productData';
-import img1 from '../assets/skincare.jpg';
+import img1 from '../assets/images (1).jpg';
 import './CartDrawer.css';
 
 export interface CartItem {
@@ -63,12 +63,12 @@ const CartDrawer = ({ isOpen, onClose, items, onUpdateQty, onRemoveItem }: CartD
                   {items.map((item) => (
                     <div key={item.bundle.id} className="cart-item-row">
                       <div className="cart-item-thumb">
-                        <img src={img1} alt="Earthora Aura Elixir" />
+                        <img src={item.bundle.image || img1} alt={item.bundle.name} />
                       </div>
 
                       <div className="cart-item-details">
-                        <div className="cart-item-name">Earthora Aura Elixir</div>
-                        <div className="cart-item-bundle">{item.bundle.name} ({item.bundle.size})</div>
+                        <div className="cart-item-name">{item.bundle.name}</div>
+                        <div className="cart-item-bundle">{item.bundle.size}</div>
                         <div className="cart-item-price">₹{item.bundle.price.toLocaleString()}</div>
 
                         <div className="cart-qty-row">

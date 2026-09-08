@@ -1,9 +1,8 @@
-import img1 from '../assets/skincare.jpg';
-import img2 from '../assets/skincare1.jpg';
-import img3 from '../assets/images.jpg';
-import img4 from '../assets/ghf.jpg';
-import img5 from '../assets/fef.jpg';
-import heroImg from '../assets/hero.png';
+import img1 from '../assets/images (1).jpg';
+import img2 from '../assets/images (2).jpg';
+import img3 from '../assets/images (3).jpg';
+import img4 from '../assets/images (4).jpg';
+import img5 from '../assets/images6.jpg';
 
 export interface ProductBundle {
   id: string;
@@ -14,6 +13,7 @@ export interface ProductBundle {
   discount: string;
   badge?: string;
   bestValue?: boolean;
+  image?: string;
 }
 
 export interface Ingredient {
@@ -56,6 +56,7 @@ export const productData = {
       price: 2490,
       originalPrice: 3490,
       discount: '29% OFF',
+      image: img1,
     },
     {
       id: 'bundle-2',
@@ -66,9 +67,10 @@ export const productData = {
       discount: '40% OFF',
       badge: 'BEST VALUE',
       bestValue: true,
+      image: img1,
     }
   ] as ProductBundle[],
-  galleryImages: [img1, img2, img3, img4, heroImg],
+  galleryImages: [img1, img2, img3, img4, img5],
   trustHighlights: [
     { title: '10K+ Customers', label: 'HAPPY CLIENTS WORLDWIDE' },
     { title: '100% Botanical', label: 'ORGANIC BOTANICAL BLEND' },
@@ -154,7 +156,7 @@ export const productData = {
       name: 'Sesame Seed Carrier',
       botanicalName: 'Sesamum Indicum',
       description: 'A traditional botanical carrier oil that ensures deep dermal delivery of essential nutrients.',
-      image: heroImg
+      image: img1
     }
   ] as Ingredient[],
   usageSteps: [
@@ -183,7 +185,7 @@ export const productData = {
       'Warm, subtle natural herbal aroma',
       'Sleek amber bottle designed for home display & travel'
     ],
-    image: heroImg
+    image: img5
   },
   comparison: [
     { feature: '100% Pure Botanical Ingredients', earthora: true, others: false },

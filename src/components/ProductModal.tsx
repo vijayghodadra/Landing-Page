@@ -1,101 +1,459 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { 
+  X, 
+  Star, 
+  Minus, 
+  Plus, 
+  ShoppingBag, 
+  Heart, 
+  Truck, 
+  ShieldCheck, 
+  RotateCcw,
+  CheckCircle2,
+  Sparkles,
+  Droplets,
+  Shield,
+  Sun
+} from 'lucide-react';
+import type { ProductBundle } from '../data/productData';
 import './ProductModal.css';
 
-interface Product {
-  id: number;
+export interface ProductModalData {
+  id: string | number;
   name: string;
   category: string;
   desc: string;
   price: string;
+  originalPrice?: string;
   image: string;
+  volume?: string;
+  tagline?: string;
+  rating?: number;
+  reviewsCount?: number;
+  ingredients?: Array<{ name: string; botanicalName: string; description: string }>;
+  benefits?: Array<{ title: string; desc: string }>;
+  howToUse?: Array<{ step: string; title: string; desc: string }>;
 }
 
 interface ProductModalProps {
-  product: Product | null;
+  product: ProductModalData | null;
   onClose: () => void;
+  onAddToCart?: (bundle: ProductBundle, quantity: number) => void;
+  onBuyNow?: (bundle: ProductBundle, quantity: number) => void;
 }
 
-const ProductModal = ({ product, onClose }: ProductModalProps) => {
+type TabType = 'description' | 'ingredients' | 'benefits' | 'howToUse';
+
+const defaultIngredients = [
+  {
+    name: 'Ashwagandha Extract',
+    botanicalName: 'Withania Somnifera',
+    description: 'Renowned botanical adaptogen known for revitalizing fatigued skin and calming sensory stress.'
+  },
+  {
+    name: 'Rosehip & Jojoba Oil',
+    botanicalName: 'Rosa Canina & Simmondsia',
+    description: 'Rich in essential fatty acids and Vitamin C to restore radiance and strengthen natural moisture barriers.'
+  },
+  {
+    name: 'Saffron Essence',
+    botanicalName: 'Crocus Sativus',
+    description: 'One of the world’s most precious botanicals, traditionally celebrated for luminous tone and clarity.'
+  },
+  {
+    name: 'Sweet Almond Base',
+    botanicalName: 'Prunus Dulcis',
+    description: 'Deeply soothing oil rich in Vitamin E that protects, softens, and deeply conditions delicate skin.'
+  },
+  {
+    name: 'Santal & Cedar Infusion',
+    botanicalName: 'Santalum Album',
+    description: 'Grounding natural aromatic notes that calm the senses and enhance the sensorial massage experience.'
+  },
+  {
+    name: 'Sesame Seed Carrier',
+    botanicalName: 'Sesamum Indicum',
+    description: 'A traditional botanical carrier oil that ensures deep dermal delivery of essential nutrients.'
+  }
+];
+
+const defaultBenefits = [
+  {
+    title: '100% Organically Certified',
+    desc: 'Formulated with cold-pressed botanical extracts, free from mineral oils, parabens, and synthetic dyes.',
+    icon: Sparkles
+  },
+  {
+    title: 'Deep Skin Hydration',
+    desc: 'Absorbs within minutes into the dermal layer without leaving sticky or greasy residue.',
+    icon: Droplets
+  },
+  {
+    title: 'Restores Radiant Barrier',
+    desc: 'Rich in natural Vitamin E and adaptogens that protect against daily environmental oxidation.',
+    icon: Shield
+  },
+  {
+    title: 'Calming Aromatherapeutic Ritual',
+    desc: 'Subtle herbal sandalwood & rosehip aroma designed to soothe senses during morning or evening routines.',
+    icon: Sun
+  }
+];
+
+const defaultHowToUse = [
+  {
+    step: '01',
+    title: 'Dispense a few drops',
+    desc: 'Take 3 to 5 drops of the warm elixir onto clean, dry palms.'
+  },
+  {
+    step: '02',
+    title: 'Warm & activate',
+    desc: 'Rub your palms together gently to warm the oil and activate the natural botanical aromatics.'
+  },
+  {
+    step: '03',
+    title: 'Massage mindfully',
+    desc: 'Massage in upward circular motions onto face, neck, or body until fully absorbed.'
+  }
+];
+
+const ProductModal = ({ product, onClose, onAddToCart, onBuyNow }: ProductModalProps) => {
+  const [activeTab, setActiveTab] = useState<TabType>('description');
+  const [quantity, setQuantity] = useState<number>(1);
+  const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (!product) return null;
+
+  const handleDecreaseQty = () => {
+    if (quantity > 1) setQuantity((prev) => prev - 1);
+  };
+
+  const handleIncreaseQty = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const currentPriceNum = parseInt(product.price.replace(/[^0-9]/g, '')) || 2490;
+  const currentOriginalNum = product.originalPrice 
+    ? parseInt(product.originalPrice.replace(/[^0-9]/g, '')) 
+    : Math.round(currentPriceNum * 1.4);
+
+  const bundleData: ProductBundle = {
+    id: typeof product.id === 'string' && String(product.id).startsWith('product-')
+      ? String(product.id)
+      : `product-${product.id}`,
+    name: product.name,
+    size: product.volume || '100ml / 3.4 fl oz',
+    price: currentPriceNum,
+    originalPrice: currentOriginalNum,
+    discount: `${Math.round(((currentOriginalNum - currentPriceNum) / currentOriginalNum) * 100)}% OFF`,
+    image: product.image
+  };
+
+  const handleAddToCartClick = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    if (onAddToCart) {
+      onAddToCart(bundleData, quantity);
+    } else {
+      alert(`Added ${quantity} x ${product.name} to cart!`);
+    }
+    onClose();
+  };
+
+  const handleBuyNowClick = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    if (onBuyNow) {
+      onBuyNow(bundleData, quantity);
+    } else if (onAddToCart) {
+      onAddToCart(bundleData, quantity);
+    }
+    onClose();
+  };
+
+  const ingredientsList = product.ingredients || defaultIngredients;
+  const benefitsList = product.benefits || defaultBenefits;
+  const howToUseList = product.howToUse || defaultHowToUse;
+
   return (
     <AnimatePresence>
-      {product && (
+      <motion.div 
+        className="modal-overlay"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        onClick={onClose}
+      >
         <motion.div 
-          className="modal-overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          onClick={onClose}
+          className="modal-content"
+          initial={{ y: 40, opacity: 0, scale: 0.96 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          exit={{ y: 30, opacity: 0, scale: 0.96 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          onClick={(e) => e.stopPropagation()}
         >
-          <motion.div 
-            className="modal-content"
-            initial={{ y: 50, opacity: 0, scale: 0.95 }}
-            animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: 20, opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button className="modal-close" onClick={onClose}>
-              <X size={20} />
-            </button>
-            
-            <div className="modal-image-container">
+          <button className="modal-close" onClick={onClose} aria-label="Close modal">
+            <X size={20} />
+          </button>
+          
+          {/* Left Product Image Section */}
+          <div className="modal-image-col">
+            <div className="modal-main-image-wrapper">
+              <button 
+                className={`wishlist-btn ${isWishlisted ? 'active' : ''}`}
+                onClick={() => setIsWishlisted(!isWishlisted)}
+                aria-label="Wishlist"
+              >
+                <Heart size={18} fill={isWishlisted ? '#e53935' : 'none'} color={isWishlisted ? '#e53935' : '#4a5568'} />
+              </button>
               <motion.img 
+                key={product.image}
                 src={product.image} 
                 alt={product.name} 
-                initial={{ scale: 1.1 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="modal-product-img"
+                initial={{ scale: 1.05, opacity: 0.8 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5 }}
               />
             </div>
-            
-            <div className="modal-info">
-              <motion.div 
-                className="modal-category"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-              >
-                {product.category}
-              </motion.div>
-              <motion.h2 
-                className="modal-title"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-              >
-                {product.name}
-              </motion.h2>
-              <motion.p 
-                className="modal-desc"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
-              >
-                {product.desc} <br/><br/>
-                Experience the pinnacle of natural luxury. Crafted with intention and designed to elevate your daily ritual.
-              </motion.p>
-              <motion.div 
-                className="modal-price"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
-              >
-                {product.price}
-              </motion.div>
-              <motion.button 
-                className="btn-primary modal-cta"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7, duration: 0.6 }}
-              >
-                Enquire Now
-              </motion.button>
+          </div>
+          
+          {/* Right Product Details & Tabs Section */}
+          <div className="modal-info-col">
+            <div className="modal-header-block">
+              <div className="modal-badge-row">
+                <span className="modal-category-badge">✨ {product.category || 'AROMATHERAPY & WELLNESS'}</span>
+              </div>
+
+              <h2 className="modal-product-title">{product.name}</h2>
+              <p className="modal-tagline">{product.tagline || product.desc}</p>
+
+              <div className="modal-rating-row">
+                <div className="rating-stars">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={15} fill="#d97706" color="#d97706" />
+                  ))}
+                </div>
+                <span className="rating-score">4.8</span>
+                <span className="reviews-count">(128 reviews)</span>
+                <span className="divider-line">|</span>
+                <span className="stock-status">
+                  <CheckCircle2 size={14} className="in-stock-icon" /> In Stock (Available)
+                </span>
+              </div>
+
+              {/* Price Banner */}
+              <div className="modal-price-box">
+                <div className="price-main-stack">
+                  <span className="modal-price-val">{product.price}</span>
+                  {product.originalPrice && (
+                    <span className="modal-price-orig">{product.originalPrice}</span>
+                  )}
+                  {!product.originalPrice && (
+                    <span className="modal-price-orig">₹{currentOriginalNum}</span>
+                  )}
+                </div>
+                <span className="volume-label">Net Vol: {product.volume || '200ml / 1.7 fl oz'}</span>
+              </div>
             </div>
-          </motion.div>
+
+            {/* TABBED MENU NAVIGATION */}
+            <div className="modal-tabs-header">
+              <button 
+                className={`tab-btn ${activeTab === 'description' ? 'active' : ''}`}
+                onClick={() => setActiveTab('description')}
+              >
+                Description
+                {activeTab === 'description' && <motion.div className="tab-indicator" layoutId="activeTabIndicator" />}
+              </button>
+              <button 
+                className={`tab-btn ${activeTab === 'ingredients' ? 'active' : ''}`}
+                onClick={() => setActiveTab('ingredients')}
+              >
+                Ingredients
+                {activeTab === 'ingredients' && <motion.div className="tab-indicator" layoutId="activeTabIndicator" />}
+              </button>
+              <button 
+                className={`tab-btn ${activeTab === 'benefits' ? 'active' : ''}`}
+                onClick={() => setActiveTab('benefits')}
+              >
+                Benefits
+                {activeTab === 'benefits' && <motion.div className="tab-indicator" layoutId="activeTabIndicator" />}
+              </button>
+              <button 
+                className={`tab-btn ${activeTab === 'howToUse' ? 'active' : ''}`}
+                onClick={() => setActiveTab('howToUse')}
+              >
+                How To Use
+                {activeTab === 'howToUse' && <motion.div className="tab-indicator" layoutId="activeTabIndicator" />}
+              </button>
+            </div>
+
+            {/* DYNAMIC TAB CONTENT AREA */}
+            <div className="modal-tab-content-container">
+              <AnimatePresence mode="wait">
+                {activeTab === 'description' && (
+                  <motion.div
+                    key="desc-tab"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.25 }}
+                    className="tab-panel"
+                  >
+                    <p className="tab-desc-text">
+                      {product.desc}
+                    </p>
+                    <div className="tab-highlights-list">
+                      <div className="tab-highlight-item">
+                        <CheckCircle2 size={15} className="highlight-icon" />
+                        <span>100% pure cold-pressed botanical formulation</span>
+                      </div>
+                      <div className="tab-highlight-item">
+                        <CheckCircle2 size={15} className="highlight-icon" />
+                        <span>Deeply moisturizes without clogging skin pores</span>
+                      </div>
+                      <div className="tab-highlight-item">
+                        <CheckCircle2 size={15} className="highlight-icon" />
+                        <span>Ethically sourced adaptogens for natural radiance</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeTab === 'ingredients' && (
+                  <motion.div
+                    key="ingredients-tab"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.25 }}
+                    className="tab-panel"
+                  >
+                    <div className="modal-ingredients-grid">
+                      {ingredientsList.map((item, index) => (
+                        <div key={index} className="modal-ingredient-card">
+                          <h4 className="ing-name">{item.name}</h4>
+                          <span className="ing-botanical">{item.botanicalName}</span>
+                          <p className="ing-desc">{item.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeTab === 'benefits' && (
+                  <motion.div
+                    key="benefits-tab"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.25 }}
+                    className="tab-panel"
+                  >
+                    <div className="modal-benefits-list">
+                      {benefitsList.map((benefit, index) => {
+                        const IconComponent = (benefit as any).icon || Sparkles;
+                        return (
+                          <div key={index} className="modal-benefit-row">
+                            <div className="benefit-icon-badge">
+                              <IconComponent size={16} />
+                            </div>
+                            <div className="benefit-text-group">
+                              <h4 className="benefit-title">{benefit.title}</h4>
+                              <p className="benefit-desc">{benefit.desc}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeTab === 'howToUse' && (
+                  <motion.div
+                    key="howToUse-tab"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.25 }}
+                    className="tab-panel"
+                  >
+                    <div className="modal-use-steps">
+                      {howToUseList.map((stepItem, index) => (
+                        <div key={index} className="modal-use-step">
+                          <span className="step-badge">{stepItem.step}</span>
+                          <div className="step-info">
+                            <h4 className="step-heading">{stepItem.title}</h4>
+                            <p className="step-details">{stepItem.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* ACTION BUTTONS & QTY SELECTOR */}
+            <div className="modal-actions-wrapper">
+              <div className="modal-qty-picker">
+                <button onClick={handleDecreaseQty} aria-label="Decrease quantity">
+                  <Minus size={14} />
+                </button>
+                <span className="qty-num">{quantity}</span>
+                <button onClick={handleIncreaseQty} aria-label="Increase quantity">
+                  <Plus size={14} />
+                </button>
+              </div>
+
+              <button 
+                className="btn-primary modal-add-cart-btn"
+                onClick={handleAddToCartClick}
+              >
+                <ShoppingBag size={18} />
+                Add to Cart
+              </button>
+
+              <button 
+                className="btn-green modal-buy-now-btn"
+                onClick={handleBuyNowClick}
+              >
+                Buy Now
+              </button>
+            </div>
+
+            {/* TRUST BADGES FOOTER */}
+            <div className="modal-trust-footer">
+              <div className="trust-badge-item">
+                <Truck size={15} className="badge-icon" />
+                <span>Free Express Delivery</span>
+              </div>
+              <div className="trust-badge-item">
+                <ShieldCheck size={15} className="badge-icon" />
+                <span>100% Organically Certified</span>
+              </div>
+              <div className="trust-badge-item">
+                <RotateCcw size={15} className="badge-icon" />
+                <span>14-Day Returns</span>
+              </div>
+            </div>
+
+          </div>
         </motion.div>
-      )}
+      </motion.div>
     </AnimatePresence>
   );
 };

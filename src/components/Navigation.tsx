@@ -24,23 +24,36 @@ const Navigation = ({ cartCount, onOpenCart, onQuickBuy }: NavigationProps) => {
   const navLinks = [
     { name: 'Home', href: '#hero' },
     { name: 'Collection', href: '#formula' },
-    { name: 'Product', href: '#hero' },
+    { name: 'Product', href: '#collection' },
     { name: 'About Us', href: '#story' },
     { name: 'Reviews', href: '#reviews' },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetEl = document.querySelector(href);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
       <header className={`nav-header ${scrolled ? 'scrolled' : ''}`}>
         <div className="nav-container">
-          <a href="#hero" className="nav-logo">
+          <a href="#hero" onClick={(e) => handleNavClick(e, '#hero')} className="nav-logo">
             <span className="logo-text">EARTHORA</span>
             <span className="logo-badge">LUXURY</span>
           </a>
 
           <nav className="nav-desktop-menu">
             {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="nav-link">
+              <a 
+                key={link.name} 
+                href={link.href} 
+                className="nav-link"
+                onClick={(e) => handleNavClick(e, link.href)}
+              >
                 {link.name}
               </a>
             ))}
@@ -96,7 +109,10 @@ const Navigation = ({ cartCount, onOpenCart, onQuickBuy }: NavigationProps) => {
                     key={link.name} 
                     href={link.href} 
                     className="drawer-link"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      handleNavClick(e, link.href);
+                    }}
                   >
                     <span>{link.name}</span>
                     <ChevronRight size={18} className="chevron" />

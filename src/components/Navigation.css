@@ -6,17 +6,17 @@
   z-index: 100;
   padding: 1.25rem 0;
   transition: var(--transition-smooth);
-  background: rgba(8, 8, 8, 0.4);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .nav-header.scrolled {
   padding: 0.85rem 0;
-  background: rgba(14, 14, 14, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   border-bottom: 1px solid var(--border-subtle);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 .nav-container {
@@ -45,7 +45,7 @@
   font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: 0.15em;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .logo-badge {
@@ -55,9 +55,9 @@
   letter-spacing: 0.15em;
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
-  background: var(--accent-red-light);
-  color: var(--accent-red);
-  border: 1px solid rgba(229, 57, 53, 0.3);
+  background: var(--accent-olive-light);
+  color: var(--accent-olive);
+  border: 1px solid rgba(59, 78, 50, 0.3);
 }
 
 .nav-desktop-menu {
@@ -82,7 +82,7 @@
 }
 
 .nav-link:hover {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .nav-link::after {
@@ -92,7 +92,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--accent-red);
+  background: var(--accent-olive);
   transition: var(--transition-smooth);
 }
 
@@ -114,22 +114,22 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.04);
   border: 1px solid var(--border-subtle);
-  color: #ffffff;
+  color: var(--text-primary);
   transition: var(--transition-smooth);
 }
 
 .cart-trigger:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 .cart-badge {
   position: absolute;
   top: -4px;
   right: -4px;
-  background: var(--accent-red);
+  background: var(--accent-olive);
   color: #ffffff;
   font-size: 0.7rem;
   font-weight: 700;
@@ -144,7 +144,7 @@
 
 .nav-buy-btn {
   display: none;
-  background: var(--accent-red);
+  background: var(--accent-olive);
   color: #ffffff;
   font-weight: 600;
   font-size: 0.85rem;
@@ -160,7 +160,7 @@
 }
 
 .nav-buy-btn:hover {
-  background: var(--accent-red-hover);
+  background: var(--accent-olive-hover);
   box-shadow: var(--shadow-red);
 }
 
@@ -168,7 +168,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
+  color: var(--text-primary);
   padding: 0.4rem;
 }
 
@@ -183,7 +183,7 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(8px);
 }
 
@@ -194,11 +194,12 @@
   bottom: 0;
   width: 85%;
   max-width: 360px;
-  background: var(--bg-surface);
+  background: #ffffff;
   border-left: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   padding: 2rem;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
 }
 
 .drawer-header {
@@ -214,6 +215,7 @@
   font-weight: 700;
   letter-spacing: 0.15em;
   font-size: 1.2rem;
+  color: var(--text-primary);
 }
 
 .close-btn {
@@ -240,7 +242,7 @@
 }
 
 .drawer-link .chevron {
-  color: var(--accent-red);
+  color: var(--accent-olive);
 }
 
 .drawer-footer {
