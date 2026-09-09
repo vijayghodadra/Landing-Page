@@ -279,3 +279,18 @@
   .item-1, .item-2, .item-3, .item-4, .item-5 { grid-column: 1 / -1; }
   .collection-footer { flex-direction: column; gap: 2rem; align-items: flex-start; }
 }
+
+@media (max-width: 640px) {
+  .collection {
+    padding: 4rem 0;
+  }
+  .intro-title {
+    font-size: 2.75rem;
+  }
+  .card-top {
+    height: 220px !important;
+  }
+  .card-bottom {
+    padding: 1.25rem 1.25rem 1.5rem 1.25rem;
+  }
+}
