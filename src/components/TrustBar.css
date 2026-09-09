@@ -51,3 +51,21 @@
   letter-spacing: 0.1em;
   color: var(--text-secondary);
 }
+
+@media (max-width: 480px) {
+  .trust-bar-section {
+    padding: 1.75rem 0;
+  }
+  .trust-grid {
+    gap: 0.85rem;
+  }
+  .trust-card {
+    padding: 0.85rem 0.6rem;
+  }
+  .trust-metric {
+    font-size: 1.35rem;
+  }
+  .trust-label {
+    font-size: 0.62rem;
+  }
+}

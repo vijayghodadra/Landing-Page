@@ -140,3 +140,18 @@
   font-size: 0.75rem;
   color: var(--accent-olive);
 }
+
+@media (max-width: 480px) {
+  .reviews-section {
+    padding: 4rem 0;
+  }
+  .reviews-summary-card {
+    flex-direction: column;
+    padding: 1rem 1.25rem;
+    text-align: center;
+    gap: 0.6rem;
+  }
+  .summary-info {
+    align-items: center;
+  }
+}
